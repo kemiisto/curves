@@ -70,6 +70,26 @@ TEST_CASE("point() works for a unit circle") {
     );
 }
 
+TEST_CASE("first_derivative() works for a unit circle") {
+    const auto c = cadex::circle{1.0f};
+    CHECK_THAT(
+        c.first_derivative(std::numbers::pi_v<float> / 2),
+        RangeEquals(std::array{-1.0f, 0.0f, 0.0f}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        c.first_derivative(std::numbers::pi_v<float>),
+        RangeEquals(std::array{0.0f, -1.0f, 0.0f}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        c.first_derivative(3 * std::numbers::pi_v<float> / 2),
+        RangeEquals(std::array{1.0f, 0.0f, 0.0f}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        c.first_derivative(2 * std::numbers::pi_v<float>),
+        RangeEquals(std::array{0.0f, 1.0f, 0.0f}, cadex::approximately_equal)
+    );
+}
+
 TEST_CASE("point() works for an ellipse that is a unit circle") {
     const auto e = cadex::ellipse{1.0f, 1.0f};
     CHECK_THAT(
@@ -87,6 +107,26 @@ TEST_CASE("point() works for an ellipse that is a unit circle") {
     CHECK_THAT(
         e.point(2 * std::numbers::pi_v<float>),
         RangeEquals(std::array{1.0f, 0.0f, 0.0f}, cadex::approximately_equal)
+    );
+}
+
+TEST_CASE("first_derivative() works for an ellipse that is a unit circle") {
+    const auto e = cadex::ellipse{1.0f, 1.0f};
+    CHECK_THAT(
+        e.first_derivative(std::numbers::pi_v<float> / 2),
+        RangeEquals(std::array{-1.0f, 0.0f, 0.0f}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        e.first_derivative(std::numbers::pi_v<float>),
+        RangeEquals(std::array{0.0f, -1.0f, 0.0f}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        e.first_derivative(3 * std::numbers::pi_v<float> / 2),
+        RangeEquals(std::array{1.0f, 0.0f, 0.0f}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        e.first_derivative(2 * std::numbers::pi_v<float>),
+        RangeEquals(std::array{0.0f, 1.0f, 0.0f}, cadex::approximately_equal)
     );
 }
 
@@ -110,6 +150,26 @@ TEST_CASE("point() works for an ellipse") {
     );
 }
 
+TEST_CASE("first_derivative() works for an ellipse") {
+    const auto e = cadex::ellipse{1.0f, 2.0f};
+    CHECK_THAT(
+        e.first_derivative(std::numbers::pi_v<float> / 2),
+        RangeEquals(std::array{-1.0f, 0.0f, 0.0f}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        e.first_derivative(std::numbers::pi_v<float>),
+        RangeEquals(std::array{0.0f, -2.0f, 0.0f}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        e.first_derivative(3 * std::numbers::pi_v<float> / 2),
+        RangeEquals(std::array{1.0f, 0.0f, 0.0f}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        e.first_derivative(2 * std::numbers::pi_v<float>),
+        RangeEquals(std::array{0.0f, 2.0f, 0.0f}, cadex::approximately_equal)
+    );
+}
+
 TEST_CASE("point() works for a unit helix with step=2") {
     const auto h = cadex::helix{1.0f, 2.0f};
     CHECK_THAT(
@@ -127,5 +187,25 @@ TEST_CASE("point() works for a unit helix with step=2") {
     CHECK_THAT(
         h.point(2 * std::numbers::pi_v<float>),
         RangeEquals(std::array{1.0f, 0.0f, 4 * std::numbers::pi_v<float>}, cadex::approximately_equal)
+    );
+}
+
+TEST_CASE("first_derivative() works for a unit helix with step=2") {
+    const auto h = cadex::helix{1.0f, 2.0f};
+    CHECK_THAT(
+        h.first_derivative(std::numbers::pi_v<float> / 2),
+        RangeEquals(std::array{-1.0f, 0.0f, 2.0f}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        h.first_derivative(std::numbers::pi_v<float>),
+        RangeEquals(std::array{0.0f, -1.0f, 2.0f}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        h.first_derivative(3 * std::numbers::pi_v<float> / 2),
+        RangeEquals(std::array{1.0f, 0.0f, 2.0f}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        h.first_derivative(2 * std::numbers::pi_v<float>),
+        RangeEquals(std::array{0.0f, 1.0f, 2.0f}, cadex::approximately_equal)
     );
 }
