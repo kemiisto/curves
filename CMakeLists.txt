@@ -14,4 +14,5 @@ target_include_directories(test PRIVATE lib/include)
 target_link_libraries(test curves Catch2::Catch2WithMain)
 
 add_executable(app app/src/main.cpp)
+target_include_directories(app PRIVATE lib/include)
 target_link_libraries(app curves)

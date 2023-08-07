@@ -1,5 +1,8 @@
-#include "../../lib/include/circle.h"
-#include "../../lib/include/ellipse.h"
+#include "circle.h"
+#include "ellipse.h"
+#include "helix.h"
+#include <vector>
 
 int main() {
+
 }
