@@ -8,6 +8,7 @@ namespace cadex {
     public:
         virtual ~curve() = default;
         virtual std::array<float, 3> point(float t) const = 0;
+        virtual std::array<float, 3> first_derivative(float t) const = 0;
     };
 }
 

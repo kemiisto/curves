@@ -13,6 +13,10 @@ namespace cadex {
         std::array<float, 3> point(float t) const override {
             return {m_a * std::cos(t), m_b * std::sin(t), 0.0f};
         }
+        // x = -a sin(t), y = b cos(t), z = 0
+        std::array<float, 3> first_derivative(float t) const override {
+            return {-m_a * std::sin(t), m_b * std::cos(t), 0.0f};
+        }
     private:
         float m_a;
         float m_b;

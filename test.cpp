@@ -1,5 +1,6 @@
 #include "circle.h"
 #include "ellipse.h"
+#include "helix.h"
 #include "util.h"
 
 #define CATCH_CONFIG_MAIN
@@ -30,6 +31,21 @@ TEST_CASE("ellipse construction") {
         REQUIRE_THROWS(cadex::ellipse{1.0f, -2.0f});
     }
     SECTION("throws when both radii are negative") {
+        REQUIRE_THROWS(cadex::ellipse{-1.0f, -2.0f});
+    }
+}
+
+TEST_CASE("helix construction") {
+    SECTION("works when both radius and step are positive") {
+        REQUIRE_NOTHROW(cadex::helix{1.0f, 2.0f});
+    }
+    SECTION("throws when radius is negative") {
+        REQUIRE_THROWS(cadex::helix{-1.0f, 2.0f});
+    }
+    SECTION("throws when step is negative") {
+        REQUIRE_THROWS(cadex::ellipse{1.0f, -2.0f});
+    }
+    SECTION("throws when both radius and step are negative") {
         REQUIRE_THROWS(cadex::ellipse{-1.0f, -2.0f});
     }
 }
@@ -91,5 +107,25 @@ TEST_CASE("point() works for an ellipse") {
     CHECK_THAT(
         e.point(2 * std::numbers::pi_v<float>),
         RangeEquals(std::array{1.0f, 0.0f, 0.0f}, cadex::approximately_equal)
+    );
+}
+
+TEST_CASE("point() works for a unit helix with step=2") {
+    const auto h = cadex::helix{1.0f, 2.0f};
+    CHECK_THAT(
+        h.point(std::numbers::pi_v<float> / 2),
+        RangeEquals(std::array{0.0f, 1.0f, std::numbers::pi_v<float>}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        h.point(std::numbers::pi_v<float>),
+        RangeEquals(std::array{-1.0f, 0.0f, 2 * std::numbers::pi_v<float>}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        h.point(3 * std::numbers::pi_v<float> / 2),
+        RangeEquals(std::array{0.0f, -1.0f, 3 * std::numbers::pi_v<float>}, cadex::approximately_equal)
+    );
+    CHECK_THAT(
+        h.point(2 * std::numbers::pi_v<float>),
+        RangeEquals(std::array{1.0f, 0.0f, 4 * std::numbers::pi_v<float>}, cadex::approximately_equal)
     );
 }
