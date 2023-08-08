@@ -5,6 +5,7 @@
 
 #define CATCH_CONFIG_RUNNER
 #include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <catch2/benchmark/catch_benchmark.hpp>
 
 #include <algorithm>
@@ -57,8 +58,34 @@ auto get_circles(std::vector<std::unique_ptr<cadex::curve>>& curves) {
     return circles;
 }
 
+template <typename ExecutionPolicy>
+auto calculate_total_radius(ExecutionPolicy&& policy, const std::vector<cadex::circle*>& circles) {
+    return std::transform_reduce(
+        policy,
+        circles.begin(), circles.end(), 0.0f,
+        [](float a, float b) {
+            return a + b;
+        },
+        [](cadex::circle* c) {
+            return c->radius();
+        }
+    );
+}
+
+TEST_CASE("parallel transform_reduce() benchmark") {
+    constexpr auto n = 1000000;
+    auto curves = generate_curves(n);
+    auto circles = get_circles(curves);
+    BENCHMARK("seq") {
+        return calculate_total_radius(std::execution::seq, circles);
+    };
+    BENCHMARK("par_unseq") {
+        return calculate_total_radius(std::execution::par_unseq, circles);
+    };
+}
+
 int main(int argc, char* const argv[]) {
-    constexpr auto n = 20;
+    constexpr auto n = 10;
     constexpr auto pi_4 = std::numbers::pi_v<float> / 4;
 
     auto curves = generate_curves(n);
@@ -80,17 +107,8 @@ int main(int argc, char* const argv[]) {
         std::cout << std::format("{:10.5f}", circle->radius()) << '\n';
     }
 
-    auto total_radii = std::transform_reduce(
-        std::execution::par_unseq,
-        circles.begin(), circles.end(), 0.0f,
-        [](float a, float b) {
-            return a + b;
-        },
-        [](cadex::circle* c) {
-            return c->radius();
-        }
-    );
-    std::cout << std::format("\nTotal circles radii: {:10.5f}", total_radii) << '\n';
+    auto total_radius = calculate_total_radius(std::execution::par_unseq, circles);
+    std::cout << std::format("\nTotal circles radius: {:10.5f}", total_radius) << '\n';
 
     std::cout << "Benchmarking parallel transform_reduce()...\n";
     return Catch::Session().run(argc, argv);
