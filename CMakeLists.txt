@@ -6,6 +6,11 @@ set(CMAKE_CXX_STANDARD 20)
 
 find_package(Catch2 3 REQUIRED)
 
+if (CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
+    message(STATUS "AppleClang")
+    add_compile_definitions(-DLIBCXX_ENABLE_INCOMPLETE_FEATURES=ON)
+endif()
+
 add_library(curves lib/src/circle.cpp lib/src/ellipse.cpp lib/src/helix.cpp)
 target_include_directories(curves PRIVATE lib/include)
 
@@ -15,4 +20,4 @@ target_link_libraries(test curves Catch2::Catch2WithMain)
 
 add_executable(app app/src/main.cpp)
 target_include_directories(app PRIVATE lib/include)
-target_link_libraries(app curves)
+target_link_libraries(app curves Catch2::Catch2)

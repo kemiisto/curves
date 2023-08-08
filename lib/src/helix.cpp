@@ -1,5 +1,6 @@
 #include "helix.h"
-#include <exception>
+#include <cmath>
+#include <stdexcept>
 
 cadex::helix::helix(float r, float s)
     : m_r{r <= 0 ? throw std::invalid_argument{"r should be positive"} : r}

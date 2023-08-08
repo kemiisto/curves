@@ -9,6 +9,7 @@ namespace cadex {
         explicit circle(float r);
         std::array<float, 3> point(float t) const override;
         std::array<float, 3> first_derivative(float t) const override;
+        const float radius() const;
     private:
         float m_r;
     };

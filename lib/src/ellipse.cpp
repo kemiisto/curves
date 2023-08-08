@@ -1,5 +1,6 @@
 #include "ellipse.h"
-#include <exception>
+#include <cmath>
+#include <stdexcept>
 
 cadex::ellipse::ellipse(float a, float b)
     : m_a{a <= 0 ? throw std::invalid_argument{"a should be positive"} : a}
