@@ -6,12 +6,12 @@
 namespace cadex {
     class helix final : public curve {
     public:
-        explicit helix(float r, float s);
+        explicit helix(float radius, float step);
         std::array<float, 3> point(float t) const override;
         std::array<float, 3> first_derivative(float t) const override;
     private:
-        float m_r;
-        float m_s;
+        float m_radius;
+        float m_step;
     };
 }
 

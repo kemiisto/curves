@@ -49,7 +49,7 @@ auto generate_curves(size_t n) {
     return curves;
 }
 
-auto get_circles(std::vector<std::unique_ptr<cadex::curve>>& curves) {
+auto get_circles(const std::vector<std::unique_ptr<cadex::curve>>& curves) {
     auto circles = std::vector<cadex::circle*>{};
     for (const auto& curve : curves) {
         auto circle = dynamic_cast<cadex::circle*>(curve.get());
@@ -66,7 +66,7 @@ auto calculate_total_radius(ExecutionPolicy&& policy, const std::vector<cadex::c
         [](float a, float b) {
             return a + b;
         },
-        [](cadex::circle* c) {
+        [](const cadex::circle* c) {
             return c->radius();
         }
     );
@@ -74,8 +74,8 @@ auto calculate_total_radius(ExecutionPolicy&& policy, const std::vector<cadex::c
 
 TEST_CASE("parallel transform_reduce() benchmark") {
     constexpr auto n = 1000000;
-    auto curves = generate_curves(n);
-    auto circles = get_circles(curves);
+    const auto curves = generate_curves(n);
+    const auto circles = get_circles(curves);
     BENCHMARK("seq") {
         return calculate_total_radius(std::execution::seq, circles);
     };
@@ -88,7 +88,7 @@ int main(int argc, char* const argv[]) {
     constexpr auto n = 10;
     constexpr auto pi_4 = std::numbers::pi_v<float> / 4;
 
-    auto curves = generate_curves(n);
+    const auto curves = generate_curves(n);
     std::cout << "Curves coordinates and derivatives at PI/4:" << '\n';
     for (const auto& curve : curves) {
         const auto& point = curve->point(pi_4);

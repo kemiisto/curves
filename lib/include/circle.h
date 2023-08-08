@@ -6,12 +6,12 @@
 namespace cadex {
     class circle final : public curve {
     public:
-        explicit circle(float r);
+        explicit circle(float radius);
         std::array<float, 3> point(float t) const override;
         std::array<float, 3> first_derivative(float t) const override;
-        const float radius() const;
+        float radius() const;
     private:
-        float m_r;
+        float m_radius;
     };
 }
 

@@ -6,12 +6,12 @@
 namespace cadex {
     class ellipse final : public curve {
     public:
-        explicit ellipse(float a, float b);
+        explicit ellipse(float radius_x, float radius_y);
         std::array<float, 3> point(float t) const override;
         std::array<float, 3> first_derivative(float t) const override;
     private:
-        float m_a;
-        float m_b;
+        float m_radius_x;
+        float m_radius_y;
     };
 }
 
