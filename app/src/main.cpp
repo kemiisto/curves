@@ -110,6 +110,6 @@ int main(int argc, char* const argv[]) {
     auto total_radius = calculate_total_radius(std::execution::par_unseq, circles);
     std::cout << std::format("\nTotal circles radius: {:10.5f}", total_radius) << '\n';
 
-    std::cout << "Benchmarking parallel transform_reduce()...\n";
+    std::cout << "\nBenchmarking parallel transform_reduce()...\n";
     return Catch::Session().run(argc, argv);
 }
